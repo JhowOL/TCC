@@ -16,7 +16,13 @@ db.createUser(
       name: 'stock 1',
       produtos: {
         name: "produto 1",
-        categoria: "eletronico"
+        amount: 100,
+        categoria: "eletronico",
+        lastPurchase: {
+          amount: 100,
+          unitaryValue: 1,
+          date: "20203-01-01"
+        }
       }
     }
   );
