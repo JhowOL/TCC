@@ -8,7 +8,7 @@ export class StocksRepository {
     constructor(@InjectModel(Stock.name) private stockModel: Model<StockDocumet>) { }
 
     async findAll() {
-        return this.stockModel.find();
+        return this.stockModel.find({},{name:1});
     }
 
     async findAllPoductsFromStock(stockId: string) {
