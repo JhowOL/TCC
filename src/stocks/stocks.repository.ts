@@ -7,7 +7,7 @@ import { Model } from "mongoose";
 export class StocksRepository {
     constructor(@InjectModel(Stock.name) private stockModel: Model<StockDocumet>) { }
 
-    async findAll() {
+    async findAllStocks() {
         return this.stockModel.find({},{name:1});
     }
 

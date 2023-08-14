@@ -7,6 +7,6 @@ export class StocksService {
     constructor(private readonly stocksRepository: StocksRepository) {}
 
     async getAllStocks(): Promise<Stock[]>{
-        return this.stocksRepository.findAll();
+        return this.stocksRepository.findAllStocks();
     }
 }
