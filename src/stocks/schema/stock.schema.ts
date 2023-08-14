@@ -4,7 +4,7 @@ import { Products } from '../dto/product.dto';
 
 export type StockDocumet = Stock & Document;
 
-@Schema()
+@Schema({versionKey: false})
 export class Stock {
     @Prop()
     name: string;
