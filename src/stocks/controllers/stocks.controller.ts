@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from "@nestjs/common";
+import { Controller, Get, Post, Body } from "@nestjs/common";
 import { StocksService } from "../services/stocks.service";
 import { Stock } from "../schema/stock.schema";
 
@@ -7,7 +7,12 @@ export class StocksController {
     constructor(private readonly stocksServices: StocksService) {}
 
     @Get()
-    async getUsers(): Promise<Stock[]> {
+    async getStocks(): Promise<Stock[]> {
         return this.stocksServices.getAllStocks();
+    }
+
+    @Post()
+    async createStock(@Body() payload: Stock): Promise<Stock>{
+        return this.stocksServices.createStock(payload);
     }
 }

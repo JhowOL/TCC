@@ -9,4 +9,8 @@ export class StocksService {
     async getAllStocks(): Promise<Stock[]>{
         return this.stocksRepository.findAllStocks();
     }
+
+    async createStock(payload: Stock): Promise<Stock>{
+        return this.stocksRepository.createStock(payload);
+    }
 }

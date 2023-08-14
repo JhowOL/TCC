@@ -14,4 +14,8 @@ export class StocksRepository {
     async findAllPoductsFromStock(stockId: string) {
         return (await this.stockModel.findOne({ _id: stockId })).products;
     }
+
+    async createStock(payload){
+        return this.stockModel.create(payload);
+    }
 }
