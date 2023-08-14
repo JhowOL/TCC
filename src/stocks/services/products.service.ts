@@ -1,12 +1,12 @@
 import { Injectable } from "@nestjs/common";
 import { StocksRepository } from "../stocks.repository";
-import { Product } from "../schema/stock.schema";
+import { Products } from "../dto/product.dto";
 
 @Injectable()
 export class ProductsService {
     constructor(private readonly stocksRepository: StocksRepository) {}
 
-    async getStockProducts(stockId: string): Promise<Product>{
+    async getStockProducts(stockId: string): Promise<Products>{
         return this.stocksRepository.findAllPoductsFromStock(stockId);
     }
 }
