@@ -9,8 +9,8 @@ export class Stock {
     @Prop()
     name: string;
 
-    @Prop({ type: Object })
-    products: Products
+    @Prop({ type: [Object] })
+    products: Products[]
 }
 
 export const StockSchema = SchemaFactory.createForClass(Stock);

@@ -11,6 +11,9 @@ export class StocksService {
     }
 
     async createStock(payload: Stock): Promise<Stock>{
+        if(payload.products == null)
+            payload.products = new Array();
+
         return this.stocksRepository.createStock(payload);
     }
 }
