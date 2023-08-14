@@ -11,7 +11,7 @@ export class StocksRepository {
         return this.stockModel.find();
     }
 
-    async findAllStockProducts(stockId: string) {
+    async findAllPoductsFromStock(stockId: string) {
         return (await this.stockModel.findOne({ _id: stockId })).products;
     }
 }
