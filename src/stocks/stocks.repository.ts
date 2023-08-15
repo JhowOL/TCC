@@ -13,7 +13,7 @@ export class StocksRepository {
     }
 
     async findAllPoductsFromStock(stockId: string) {
-        return (await this.stockModel.findOne({ _id: stockId })).products;
+        return (await this.stockModel.findById(stockId)).products;
     }
 
     async createStock(payload: Stock){
