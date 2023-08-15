@@ -4,7 +4,7 @@ import { Stock, StockSchema } from "./schema/stock.schema";
 import { StocksController } from "./controllers/stocks.controller";
 import { StocksService } from "./services/stocks.service";
 import { StocksRepository } from "./stocks.repository";
-import { ProductsController } from "./controllers/products.contoller";
+import { ProductsController } from "./controllers/products.controller";
 import { ProductsService } from "./services/products.service";
 
 @Module({
