@@ -12,7 +12,19 @@ export class ProductsService {
     }
 
     async addProductToStock(payload: CreateProducts): Promise<Products>{
-        await this.stocksRepository.addProductToStock(payload);
-        return payload.products;
+        const { products, stockId } = payload;
+        const newProduct = {
+            name: products.name,
+            amount: products.amount,
+            category: products.category,
+            lastPurchase:{
+                amount: products.lastPurchase.amount,
+                unitaryPrice: products.lastPurchase.unitaryPrice,
+                date: products.lastPurchase.date,
+            }
+        }
+        
+        await this.stocksRepository.addProductToStock(newProduct, stockId);
+        return newProduct;
     }
 }

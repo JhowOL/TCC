@@ -3,6 +3,7 @@ import { InjectModel } from "@nestjs/mongoose";
 import { Stock, StockDocumet } from "./schema/stock.schema";
 import { Model } from "mongoose";
 import { CreateProducts } from "./dto/createProduct.dto";
+import { Products } from "./dto/product.dto";
 
 @Injectable()
 export class StocksRepository {
@@ -17,12 +18,16 @@ export class StocksRepository {
     }
 
     async createStock(payload: Stock){
+        const newStock = {
+            
+        }
         return this.stockModel.create(payload);
     }
 
-    async addProductToStock(payload: CreateProducts){
-        const { products } = (await this.stockModel.findById(payload.stockId));
-        products.push(payload.products);
-        await this.stockModel.updateOne({ _id: payload.stockId }, {products});
+    async addProductToStock(product: Products, stockId: string){
+        const { products } = (await this.stockModel.findById(stockId));
+        
+        products.push(product);
+        await this.stockModel.updateOne({ _id: stockId }, {products});
     }
 }

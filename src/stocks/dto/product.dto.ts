@@ -7,6 +7,6 @@ export class Products{
 
 export class LastPurchase{
     amount: number;
-    unitaryValue: number;
+    unitaryPrice: number;
     date: Date;
 }

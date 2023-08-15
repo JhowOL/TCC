@@ -31,7 +31,7 @@ db.stocks.insertOne(
         categoria: "roupa",
         lastPurchase: {
           amount: 50,
-          unitaryValue: 2,
+          unitaryPrice: 2,
           date: "20203-01-01"
         }
       }
