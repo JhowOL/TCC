@@ -21,10 +21,13 @@ export class StocksRepository {
         return this.stockModel.create(newStock);
     }
 
-    async addProductToStock(product: Products, stockId: string){
+    async addProductToStock(_products: Products[], stockId: string){
         const { products } = (await this.stockModel.findById(stockId));
         
-        products.push(product);
+        _products.forEach(p => {
+            products.push(p);
+        });
+        
         await this.stockModel.updateOne({ _id: stockId }, {products});
     }
 }

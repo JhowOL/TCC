@@ -13,7 +13,7 @@ export class ProductsController {
     }
 
     @Post()
-    async addProductToStock(@Body() payload: CreateProducts): Promise<Products>{
+    async addProductToStock(@Body() payload: CreateProducts): Promise<Products[]>{
         return this.productsServices.addProductToStock(payload)
     }
 }

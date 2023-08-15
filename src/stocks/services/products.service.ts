@@ -11,18 +11,22 @@ export class ProductsService {
         return this.stocksRepository.findAllPoductsFromStock(stockId);
     }
 
-    async addProductToStock(payload: CreateProducts): Promise<Products>{
+    async addProductToStock(payload: CreateProducts): Promise<Products[]>{
         const { products, stockId } = payload;
-        const newProduct = {
-            name: products.name,
-            amount: products.amount,
-            category: products.category,
-            lastPurchase:{
-                amount: products.lastPurchase.amount,
-                unitaryPrice: products.lastPurchase.unitaryPrice,
-                date: products.lastPurchase.date,
-            }
-        }
+        let newProduct = new Array<Products>();
+        
+        products.forEach(p => {
+            newProduct.push({
+                name: p.name,
+                amount: p.amount,
+                category: p.category,
+                lastPurchase:{
+                    amount: p.lastPurchase.amount,
+                    unitaryPrice: p.lastPurchase.unitaryPrice,
+                    date: p.lastPurchase.date,
+                }
+            })
+        });
         
         await this.stocksRepository.addProductToStock(newProduct, stockId);
         return newProduct;
