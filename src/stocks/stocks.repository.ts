@@ -17,11 +17,8 @@ export class StocksRepository {
         return (await this.stockModel.findById(stockId)).products;
     }
 
-    async createStock(payload: Stock){
-        const newStock = {
-            
-        }
-        return this.stockModel.create(payload);
+    async createStock(newStock: Stock){
+        return this.stockModel.create(newStock);
     }
 
     async addProductToStock(product: Products, stockId: string){

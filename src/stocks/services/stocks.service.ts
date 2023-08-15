@@ -4,16 +4,18 @@ import { Stock } from "../schema/stock.schema";
 
 @Injectable()
 export class StocksService {
-    constructor(private readonly stocksRepository: StocksRepository) {}
+    constructor(private readonly stocksRepository: StocksRepository) { }
 
-    async getAllStocks(): Promise<Stock[]>{
+    async getAllStocks(): Promise<Stock[]> {
         return this.stocksRepository.findAllStocks();
     }
 
-    async createStock(payload: Stock): Promise<Stock>{
-        if(payload.products == null)
-            payload.products = new Array();
+    async createStock(payload: Stock): Promise<Stock> {
+        const newStock = {
+            name : payload.name,
+            products : new Array()
+        }
 
-        return this.stocksRepository.createStock(payload);
+        return this.stocksRepository.createStock(newStock);
     }
 }
