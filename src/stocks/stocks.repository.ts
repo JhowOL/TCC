@@ -2,7 +2,6 @@ import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Stock, StockDocumet } from "./schema/stock.schema";
 import { Model } from "mongoose";
-import { CreateProducts } from "./dto/createProduct.dto";
 import { Products } from "./dto/product.dto";
 
 @Injectable()
