@@ -13,7 +13,8 @@ export class StocksService {
     async createStock(payload: Stock): Promise<Stock> {
         const newStock = {
             name : payload.name,
-            products : new Array()
+            products : new Array(),
+            searchPriority: new Array()
         }
 
         return this.stocksRepository.createStock(newStock);
