@@ -37,4 +37,8 @@ export class StocksRepository {
     
         return stock;
     }
+
+    async getSearchPriority(stockId: string){
+        return (await this.stockModel.findById(stockId)).searchPriority;
+    }
 }
