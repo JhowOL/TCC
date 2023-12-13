@@ -31,4 +31,8 @@ export class ProductsService {
         await this.stocksRepository.addProductToStock(newProduct, stockId);
         return newProduct;
     }
+
+    async getProduct(name: string, stockId: string): Promise<object>{
+        return await this.stocksRepository.getProduct(name, stockId);
+    }
 }
