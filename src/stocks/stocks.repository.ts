@@ -9,7 +9,7 @@ export class StocksRepository {
     constructor(@InjectModel(Stock.name) private stockModel: Model<StockDocumet>) { }
 
     async findAllStocks() {
-        return this.stockModel.find({}, { name: 1 });
+        return this.stockModel.find({}, { name: 1, searchPriority: 1 });
     }
 
     async findAllPoductsFromStock(stockId: string) {
@@ -30,15 +30,19 @@ export class StocksRepository {
         await this.stockModel.updateOne({ _id: stockId }, { products });
     }
 
-    async getProduct(name: string, stockId: string) {
-        let stock = await this.stockModel.findById(stockId, {_id:0, searchPriority:0})
+    async getProductByStockId(name: string, stockId: string) {
+        let stock = await this.stockModel.findById(stockId, { _id: 0 })
 
-        stock.products = Array.of(stock.products.find(p => p.name == name));
-    
+        stock.products = stock.products.filter(p => p.name == name);
+
         return stock;
     }
 
-    async getSearchPriority(stockId: string){
-        return (await this.stockModel.findById(stockId)).searchPriority;
+    async getProductByStockName(productName: string, stockName: string) {
+        let stock = await this.stockModel.findOne({ name: stockName }, { _id: 0 });
+
+        stock.products = stock.products.filter(p => p.name == productName);
+
+        return stock;
     }
 }

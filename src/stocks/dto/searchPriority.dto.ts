@@ -7,4 +7,8 @@ export class SearchPriority{
     @IsNotEmpty()
     @Min(0)
     priority: number;
+
+    @IsNotEmpty()
+    @Min(0)
+    daysToTransfer: number;
 }

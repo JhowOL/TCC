@@ -3,6 +3,7 @@ import { ProductsService } from "../services/products.service";
 import { Products } from "../dto/product.dto";
 import { CreateProducts } from "../dto/createProduct.dto";
 import { Stock } from "../schema/stock.schema";
+import { SearchProduct } from "../dto/SearchProduct.dto";
 
 @Controller('products')
 export class ProductsController {
@@ -19,7 +20,7 @@ export class ProductsController {
     }
 
     @Get('/product/:stockId')
-    async GetProduct(@Query('name') name: string, @Param('stockId') stockId): Promise<Stock> {
+    async GetProduct(@Query('name') name: string, @Param('stockId') stockId): Promise<SearchProduct> {
         return this.productsServices.getProduct(name, stockId);
     }
 }

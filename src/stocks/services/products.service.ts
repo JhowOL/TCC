@@ -3,6 +3,8 @@ import { StocksRepository } from "../stocks.repository";
 import { Products } from "../dto/product.dto";
 import { CreateProducts } from "../dto/createProduct.dto";
 import { Stock } from "../schema/stock.schema";
+import { SearchPriority } from "../dto/searchPriority.dto";
+import { SearchProduct } from "../dto/SearchProduct.dto";
 
 @Injectable()
 export class ProductsService {
@@ -33,7 +35,31 @@ export class ProductsService {
         return newProduct;
     }
 
-    async getProduct(name: string, stockId: string): Promise<Stock>{
-        return await this.stocksRepository.getProduct(name, stockId);
+    async getProduct(name: string, stockId: string): Promise<SearchProduct>{
+        let stock = await this.stocksRepository.getProductByStockId(name, stockId);
+
+        let result = new SearchProduct();
+
+        result.stockRequested = stock.name;
+        result.stockFound = stock.name;
+        result.product = stock.products;
+
+        if (stock.products.length < 1) {
+            for (let i = 0; i < stock.searchPriority.length; i++) {
+                const nextStock = stock.searchPriority.find(p => p.priority == i);
+                const search = await this.stocksRepository.getProductByStockName(name, nextStock.name);
+                
+                if (search.products.length > 0){
+                    result.stockFound = nextStock.name;
+                    result.product = search.products;
+                    result.searchPriority = nextStock.priority;
+                    result.daysToTransfer = nextStock.daysToTransfer;
+
+                    break;
+                }
+            }
+        }
+
+        return result;
     }
 }
