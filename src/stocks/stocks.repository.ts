@@ -9,7 +9,7 @@ export class StocksRepository {
     constructor(@InjectModel(Stock.name) private stockModel: Model<StockDocumet>) { }
 
     async findAllStocks() {
-        return this.stockModel.find({}, { name: 1, searchPriority: 1 });
+        return await this.stockModel.find({}, { name: 1, searchPriority: 1 });
     }
 
     async findAllPoductsFromStock(stockId: string) {
