@@ -14,7 +14,7 @@ export class StocksService {
         const newStock = {
             name : payload.name,
             products : new Array(),
-            searchPriority: new Array()
+            searchPriority: payload.searchPriority
         }
 
         return this.stocksRepository.createStock(newStock);
