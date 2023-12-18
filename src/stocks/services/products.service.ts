@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { StocksRepository } from "../stocks.repository";
 import { Products } from "../dto/product.dto";
 import { CreateProducts } from "../dto/createProduct.dto";
@@ -6,6 +6,7 @@ import { Stock } from "../schema/stock.schema";
 import { SearchPriority } from "../dto/searchPriority.dto";
 import { SearchProduct } from "../dto/SearchProduct.dto";
 import { promises } from "dns";
+import { Purchase } from "../dto/purchase.dto";
 
 @Injectable()
 export class ProductsService {
@@ -61,7 +62,34 @@ export class ProductsService {
             }
         }
 
+        if (stock.products.length < 1)
+            throw new HttpException("Produto não encontrado", HttpStatus.NOT_FOUND);
+        
         return result;
+    }
+
+    async ProcessPurchase(payload: Purchase): Promise<Products>{
+        let products = await this.stocksRepository.findAllPoductsFromStock(payload.stockId);
+        let productExists = false;
+        let productUpdated = new Products();
+
+        products.forEach(p => {
+            if (p.name == payload.productName){
+                if(p.amount < payload.amount)
+                    throw new HttpException("Quantidade invalida para compra", HttpStatus.BAD_REQUEST);
+                else
+                    p.amount -= payload.amount;
+
+                productExists = true;
+                productUpdated = p;
+            }
+        });
+        
+        if (!productExists)
+            throw new HttpException("Produto não encontrado", HttpStatus.NOT_FOUND);
+        
+        await this.stocksRepository.processPurchase(products, payload.stockId);
+        return productUpdated;
     }
 
     private AmountIsValid(products: Products[]){
