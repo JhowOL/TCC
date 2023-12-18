@@ -2,12 +2,9 @@ import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { StocksRepository } from "../stocks.repository";
 import { Products } from "../dto/product.dto";
 import { CreateProducts } from "../dto/createProduct.dto";
-import { Stock } from "../schema/stock.schema";
-import { SearchPriority } from "../dto/searchPriority.dto";
 import { SearchProduct } from "../dto/SearchProduct.dto";
-import { promises } from "dns";
-import { Purchase, Sale } from "../dto/Sale.dto";
-import { Acquisition } from "../dto/Purchase.dto";
+import { Sale } from "../dto/Sale.dto";
+import { Purchase } from "../dto/Purchase.dto";
 
 @Injectable()
 export class ProductsService {
@@ -92,7 +89,7 @@ export class ProductsService {
         return productUpdated;
     }
 
-    async ProcessPurchase(payload: Acquisition): Promise<Products>{
+    async ProcessPurchase(payload: Purchase): Promise<Products>{
         let products = await this.stocksRepository.findAllPoductsFromStock(payload.stockId);
         let productExists = false;
         let productUpdated = new Products();
