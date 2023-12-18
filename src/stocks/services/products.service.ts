@@ -6,8 +6,8 @@ import { Stock } from "../schema/stock.schema";
 import { SearchPriority } from "../dto/searchPriority.dto";
 import { SearchProduct } from "../dto/SearchProduct.dto";
 import { promises } from "dns";
-import { Purchase } from "../dto/purchase.dto";
-import { Acquisition } from "../dto/acquisition.dto";
+import { Purchase, Sale } from "../dto/Sale.dto";
+import { Acquisition } from "../dto/Purchase.dto";
 
 @Injectable()
 export class ProductsService {
@@ -69,7 +69,7 @@ export class ProductsService {
         return result;
     }
 
-    async ProcessPurchase(payload: Purchase): Promise<Products>{
+    async ProcessSale(payload: Sale): Promise<Products>{
         let products = await this.stocksRepository.findAllPoductsFromStock(payload.stockId);
         let productExists = false;
         let productUpdated = new Products();
@@ -92,7 +92,7 @@ export class ProductsService {
         return productUpdated;
     }
 
-    async ProcessAcquisition(payload: Acquisition): Promise<Products>{
+    async ProcessPurchase(payload: Acquisition): Promise<Products>{
         let products = await this.stocksRepository.findAllPoductsFromStock(payload.stockId);
         let productExists = false;
         let productUpdated = new Products();
@@ -101,7 +101,7 @@ export class ProductsService {
             if (p.name == payload.productName){
                 p.lastPurchase = payload.purchase;
                 p.amount += payload.purchase.amount;
-                
+
                 productExists = true;
                 productUpdated = p;
             }
