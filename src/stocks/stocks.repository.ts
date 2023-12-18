@@ -46,7 +46,7 @@ export class StocksRepository {
         return stock;
     }
 
-    async processPurchase(products: Products[], stockId: string) {
+    async updateProduct(products: Products[], stockId: string) {
         await this.stockModel.updateOne({_id: stockId}, {$set: { products: products }})
     }
 }

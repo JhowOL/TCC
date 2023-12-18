@@ -4,6 +4,7 @@ import { Products } from "../dto/product.dto";
 import { CreateProducts } from "../dto/createProduct.dto";
 import { SearchProduct } from "../dto/SearchProduct.dto";
 import { Purchase } from "../dto/purchase.dto";
+import { Acquisition } from "../dto/acquisition.dto";
 
 @Controller('products')
 export class ProductsController {
@@ -27,5 +28,10 @@ export class ProductsController {
     @Post('ProcessPurchase')
     async UpdateProduct(@Body() payload: Purchase): Promise<Products>{       
         return await this.productsServices.ProcessPurchase(payload);
+    }
+
+    @Post('/ProcessAcquisition')
+    async ProcessAcquisition(@Body() payload: Acquisition ): Promise<Products>{
+        return await this.productsServices.ProcessAcquisition(payload);
     }
 }

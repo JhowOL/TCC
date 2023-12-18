@@ -7,6 +7,7 @@ import { SearchPriority } from "../dto/searchPriority.dto";
 import { SearchProduct } from "../dto/SearchProduct.dto";
 import { promises } from "dns";
 import { Purchase } from "../dto/purchase.dto";
+import { Acquisition } from "../dto/acquisition.dto";
 
 @Injectable()
 export class ProductsService {
@@ -64,7 +65,7 @@ export class ProductsService {
 
         if (stock.products.length < 1)
             throw new HttpException("Produto não encontrado", HttpStatus.NOT_FOUND);
-        
+
         return result;
     }
 
@@ -85,10 +86,30 @@ export class ProductsService {
             }
         });
         
-        if (!productExists)
-            throw new HttpException("Produto não encontrado", HttpStatus.NOT_FOUND);
+        this.ValidProdctExist(productExists);
         
-        await this.stocksRepository.processPurchase(products, payload.stockId);
+        await this.stocksRepository.updateProduct(products, payload.stockId);
+        return productUpdated;
+    }
+
+    async ProcessAcquisition(payload: Acquisition): Promise<Products>{
+        let products = await this.stocksRepository.findAllPoductsFromStock(payload.stockId);
+        let productExists = false;
+        let productUpdated = new Products();
+
+        products.forEach(p => {
+            if (p.name == payload.productName){
+                p.lastPurchase = payload.purchase;
+                p.amount += payload.purchase.amount;
+                
+                productExists = true;
+                productUpdated = p;
+            }
+        });
+        
+        this.ValidProdctExist(productExists);
+        
+        await this.stocksRepository.updateProduct(products, payload.stockId);
         return productUpdated;
     }
 
@@ -104,5 +125,10 @@ export class ProductsService {
         });
 
         return isValid;
+    }
+
+    private ValidProdctExist(productExists: boolean){
+        if (!productExists)
+            throw new HttpException("Produto não encontrado", HttpStatus.NOT_FOUND);
     }
 }
