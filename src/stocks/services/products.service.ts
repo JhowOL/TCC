@@ -5,6 +5,7 @@ import { CreateProducts } from "../dto/createProduct.dto";
 import { Stock } from "../schema/stock.schema";
 import { SearchPriority } from "../dto/searchPriority.dto";
 import { SearchProduct } from "../dto/SearchProduct.dto";
+import { promises } from "dns";
 
 @Injectable()
 export class ProductsService {
@@ -43,13 +44,13 @@ export class ProductsService {
         result.stockRequested = stock.name;
         result.stockFound = stock.name;
         result.product = stock.products;
-
-        if (stock.products.length < 1) {
+        
+        if (stock.products.length < 1 || !this.AmountIsValid(stock.products)) {
             for (let i = 0; i < stock.searchPriority.length; i++) {
                 const nextStock = stock.searchPriority.find(p => p.priority == i);
                 const search = await this.stocksRepository.getProductByStockName(name, nextStock.name);
                 
-                if (search.products.length > 0){
+                if (search.products.length > 0 && this.AmountIsValid(search.products)){
                     result.stockFound = nextStock.name;
                     result.product = search.products;
                     result.searchPriority = nextStock.priority;
@@ -61,5 +62,19 @@ export class ProductsService {
         }
 
         return result;
+    }
+
+    private AmountIsValid(products: Products[]){
+        let isValid = false;
+
+        if(products.length < 1)
+            return isValid;
+        
+        products.forEach(p => {
+            if (p.amount > 0)
+                isValid = true;
+        });
+
+        return isValid;
     }
 }

@@ -21,6 +21,6 @@ export class ProductsController {
 
     @Get('/product/:stockId')
     async GetProduct(@Query('name') name: string, @Param('stockId') stockId): Promise<SearchProduct> {
-        return this.productsServices.getProduct(name, stockId);
+        return await this.productsServices.getProduct(name, stockId);
     }
 }
