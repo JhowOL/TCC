@@ -60,7 +60,7 @@ export class ProductsService {
             }
         }
 
-        if (stock.products.length < 1)
+        if (result.product.length < 1)
             throw new HttpException("Produto não encontrado", HttpStatus.NOT_FOUND);
 
         return result;
